@@ -6,7 +6,7 @@
 select
 date_format(datahora, '%d/%m/%y') as 'Data',
 numerocliente as NumeroCliente,
-count(numerocliente) - 1 as Rechamadas 
+count(*) - 1 as Rechamadas 
 from ligacoes
 group by numerocliente
 having Rechamadas > 0
