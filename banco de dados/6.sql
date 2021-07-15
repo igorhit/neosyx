@@ -2,22 +2,11 @@
 -- de ligações, em percentual, que cada CIDADE ocupa do total de ligações de todas as Cidades.
 -- a. Palavras-chave: GROUP BY, COUNT, INNER JOIN, SUBQUERY, VARIÁVEIS, TABELAS VARIÁVEIS
 
--- criando tabela auxiliar
-create table lig_cid as 
 select 
-o.codigocidade as id_cid, 
-count(codigooperador) as ligações 
+c.nome as Cidades,
+concat(cast(count(o.codigocidade) / (select count(*) from ligacoes) * 100.0 as decimal(3,0)), '%') as 'Percentual de Ligações'
 from ligacoes
-inner join operadores o on codigooperador = codigo
+inner join operadores o on codigooperador = o.codigo
+inner join cidades c on o.codigocidade = c.codigo
 group by codigocidade
-
--- convertendo ligações por cidade para percentual do total de ligações
-select
-concat(cast(ligações / (select count(codigooperador) from ligacoes) * 100 as decimal(15,0)), '%') as 'Percentual de Ligações',
-nome as CIDADES
-from cidades
-inner join lig_cid on id_cid = codigo
-order by nome
-
--- deletando tabela auxiliar
-drop table if exists lig_cid
+order by c.nome
