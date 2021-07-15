@@ -23,7 +23,9 @@ create table if not exists cidades (
 create table if not exists operadores (
     codigo int unsigned not null auto_increment,
     nome varchar(30) not null,
-    codigocidade int unsigned not null,
+    codigocidade int unsigned not null, -- analizando o diagrama, faz 
+    -- mais sentido os operadores estarem relacionados as cidades e não 
+    -- aos estados devido ao pedido de trazer as ligações por cidades
     primary key (codigo),
     unique key (codigo),
     foreign key (codigocidade) references cidades (codigo)
